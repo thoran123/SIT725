@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .endpoint {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .endpoint.post { border-left-color: #007bff; }
+        .endpoint.put { border-left-color: #ffc107; }
+        .endpoint.delete { border-left-color: #dc3545; }
+        .endpoint.patch { border-left-color: #6f42c1; }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        
+        .method.get { background: #28a745; color: white; }
+        .method.post { background: #007bff; color: white; }
+        .method.put { background: #ffc107; color: black; }
+        .method.delete { background: #dc3545; color: white; }
+        .method.patch { background: #6f42c1; color: white; }
+        
+        .url {
+            font-family: 'Courier New', monospace;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .demo-section {
+            background: #e8f5e8;
+            border-left-color: #28a745;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .demo-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .demo-btn.get { background: #28a745; color: white; }
+        .demo-btn.post { background: #007bff; color: white; }
+        .demo-btn.put { background: #ffc107; color: black; }
+        .demo-btn.delete { background: #dc3545; color: white; }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .task-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-buttons {
+                flex-direction: column;
+            }
+            
+            .demo-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Task Management API</h1>
+            <p class="subtitle">Express.js REST API with HTTP Methods Demo</p>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2>🌟 Features</h2>
+                <ul class="feature-list">
+                    <li>Full CRUD operations (Create, Read, Update, Delete)</li>
+                    <li>RESTful API design with proper HTTP methods</li>
+                    <li>Task filtering by priority and status</li>
+                    <li>JSON response format with error handling</li>
+                    <li>Static file serving from public folder</li>
+                    <li>In-memory data storage for demo purposes</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📋 API Endpoints</h2>
+                
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/tasks</span>
+                    <p>Get all tasks</p>
+                </div>
+                
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/tasks/:id</span>
+                    <p>Get specific task by ID</p>
+                </div>
+                
+                <div class="endpoint post">
+                    <span class="method post">POST</span>
+                    <span class="url">/api/tasks</span>
+                    <p>Create new task (requires: title, optional: description, priority)</p>
+                </div>
+                
+                <div class="endpoint put">
+                    <span class="method put">PUT</span>
+                    <span class="url">/api/tasks/:id</span>
+                    <p>Update existing task</p>
+                </div>
+                
+                <div class="endpoint delete">
+                    <span class="method delete">DELETE</span>
+                    <span class="url">/api/tasks/:id</span>
+                    <p>Delete task by ID</p>
+                </div>
+                
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/tasks/priority/:priority</span>
+                    <p>Get tasks by priority (high, medium, low)</p>
+                </div>
+                
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/tasks/status/:status</span>
+                    <p>Get tasks by status (completed, incomplete)</p>
+                </div>
+                
+                <div class="endpoint patch">
+                    <span class="method patch">PATCH</span>
+                    <span class="url">/api/tasks/:id/toggle</span>
+                    <p>Toggle task completion status</p>
+                </div>
+            </div>
+            
+            <div class="section demo-section">
+                <h2>🎮 Interactive Demo</h2>
+                <p>Try out the API endpoints directly from your browser:</p>
+                
+                <div class="demo-buttons">
+                    <button class="demo-btn get" onclick="fetchTasks()">Get All Tasks</button>
+                    <button class="demo-btn get" onclick="fetchTask(1)">Get Task #1</button>
+                    <button class="demo-btn get" onclick="fetchTasksByPriority('high')">High Priority Tasks</button>
+                    <button class="demo-btn get" onclick="fetchTasksByStatus('completed')">Completed Tasks</button>
+                    <button class="demo-btn delete" onclick="deleteTask(1)">Delete Task #1</button>
+                    <button class="demo-btn patch" onclick="toggleTask(2)">Toggle Task #2</button>
+                </div>
+                
+                <div class="task-form">
+                    <h3>Create New Task</h3>
+                    <div class="form-group">
+                        <label for="taskTitle">Title:</label>
+                        <input type="text" id="taskTitle" placeholder="Enter task title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription">Description:</label>
+                        <textarea id="taskDescription" placeholder="Enter task description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">Priority:</label>
+                        <select id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <button class="demo-btn post" onclick="createTask()">Create Task</button>
+                </div>
+                
+                <div class="result" id="result">
+                    Click any button above to see the API response...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        async function makeRequest(url, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.json();
+                
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.style.color = response.ok ? '#28a745' : '#dc3545';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.style.color = '#dc3545';
+            }
+        }
+        
+        function fetchTasks() {
+            makeRequest('/api/tasks');
+        }
+        
+        function fetchTask(id) {
+            makeRequest(`/api/tasks/${id}`);
+        }
+        
+        function fetchTasksByPriority(priority) {
+            makeRequest(`/api/tasks/priority/${priority}`);
+        }
+        
+        function fetchTasksByStatus(status) {
+            makeRequest(`/api/tasks/status/${status}`);
+        }
+        
+        function deleteTask(id) {
+            makeRequest(`/api/tasks/${id}`, 'DELETE');
+        }
+        
+        function toggleTask(id) {
+            makeRequest(`/api/tasks/${id}/toggle`, 'PATCH');
+        }
+        
+        function createTask() {
+            const title = document.getElementById('taskTitle').value;
+            const description = document.getElementById('taskDescription').value;
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!title.trim()) {
+                alert('Please enter a task title');
+                return;
+            }
+            
+            const taskData = {
+                title: title.trim(),
+                description: description.trim(),
+                priority: priority
+            };
+            
+            makeRequest('/api/tasks', 'POST', taskData);
+            
+            // Clear form
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDescription').value = '';
+            document.getElementById('taskPriority').value = 'medium';
+        }
+    </script>
+</body>
+</html>
