@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT725 - Task 1.4P - Web Assignment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .info-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .calculator {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+        }
+
+        .error {
+            background: #ffeaea;
+            border: 2px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        .array-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .array-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .array-input input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .numbers-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #3498db;
+        }
+
+        .stat-item strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .console-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .calc-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .array-input {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SIT725 - Applied Software Engineering</h1>
+            <p>Task 1.4P - Basic Programming (Web Version)</p>
+        </div>
+
+        <div class="content">
+            <!-- Student Information Section -->
+            <div class="section">
+                <h2>👨‍🎓 Student Information</h2>
+                <div class="student-info">
+                    <div class="info-item">
+                        <strong>Name:</strong>
+                        <span>Thoran Kumar Cherukuru Ramesh</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Student ID:</strong>
+                        <span>s224967779</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Email:</strong>
+                        <span>s224967779@deakin.edu.au</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Subject:</strong>
+                        <span>SIT725 - Applied Software Engineering</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator Section -->
+            <div class="section">
+                <h2>🧮 Interactive Calculator</h2>
+                <div class="calculator">
+                    <div class="calc-inputs">
+                        <input type="number" id="num1" placeholder="Enter first number" value="5">
+                        <select id="operation">
+                            <option value="add">Add (+)</option>
+                            <option value="subtract">Subtract (-)</option>
+                            <option value="multiply">Multiply (×)</option>
+                            <option value="divide">Divide (÷)</option>
+                        </select>
+                        <input type="number" id="num2" placeholder="Enter second number" value="3">
+                        <button class="btn" onclick="calculate()">Calculate</button>
+                    </div>
+                    <div id="calcResult"></div>
+                </div>
+            </div>
+
+            <!-- Array Operations Section -->
+            <div class="section">
+                <h2>📊 Array Operations</h2>
+                <div class="array-section">
+                    <div class="array-input">
+                        <input type="text" id="arrayInput" placeholder="Enter numbers separated by commas (e.g., 1,2,3,4,5)" value="1,2,3,4,5">
+                        <button class="btn" onclick="processArray()">Process Array</button>
+                    </div>
+                    <div id="arrayResult"></div>
+                </div>
+            </div>
+
+            <!-- Console Output Section -->
+            <div class="section">
+                <h2>🖥️ Console Output</h2>
+                <div class="console-output" id="consoleOutput"></div>
+                <button class="btn" onclick="runOriginalCode()" style="margin-top: 15px;">Run Original JavaScript Code</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Student information object
+        const studentInfo = {
+            name: "Thoran Kumar Cherukuru Ramesh",
+            id: "s224967779",
+            email: "s224967779@deakin.edu.au",
+            subject: "SIT725 - Applied Software Engineering",
+            task: "1.4P"
+        };
+
+        // Simple calculator function
+        function calculator(a, b, operation) {
+            switch(operation) {
+                case 'add':
+                    return a + b;
+                case 'subtract':
+                    return a - b;
+                case 'multiply':
+                    return a * b;
+                case 'divide':
+                    return b !== 0 ? a / b : "Cannot divide by zero";
+                default:
+                    return "Invalid operation";
+            }
+        }
+
+        // Interactive calculator function
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            const resultDiv = document.getElementById('calcResult');
+
+            if (isNaN(num1) || isNaN(num2)) {
+                resultDiv.innerHTML = '<div class="result error">Please enter valid numbers</div>';
+                return;
+            }
+
+            const result = calculator(num1, num2, operation);
+            const operatorSymbol = {
+                'add': '+',
+                'subtract': '-',
+                'multiply': '×',
+                'divide': '÷'
+            };
+
+            const isError = typeof result === 'string' && result.includes('Cannot');
+            resultDiv.innerHTML = `
+                <div class="result ${isError ? 'error' : ''}">
+                    ${num1} ${operatorSymbol[operation]} ${num2} = ${result}
+                </div>
+            `;
+        }
+
+        // Array processing function
+        function processArray() {
+            const input = document.getElementById('arrayInput').value;
+            const resultDiv = document.getElementById('arrayResult');
+
+            try {
+                const numbers = input.split(',').map(num => {
+                    const parsed = parseFloat(num.trim());
+                    if (isNaN(parsed)) throw new Error('Invalid number');
+                    return parsed;
+                });
+
+                const sum = numbers.reduce((sum, num) => sum + num, 0);
+                const average = sum / numbers.length;
+                const max = Math.max(...numbers);
+                const min = Math.min(...numbers);
+
+                resultDiv.innerHTML = `
+                    <div class="numbers-display">
+                        <strong>Numbers:</strong> [${numbers.join(', ')}]
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <strong>Sum</strong>
+                            <span>${sum}</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Average</strong>
+                            <span>${average.toFixed(2)}</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Maximum</strong>
+                            <span>${max}</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Minimum</strong>
+                            <span>${min}</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong>Count</strong>
+                            <span>${numbers.length}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="result error">Please enter valid numbers separated by commas</div>';
+            }
+        }
+
+        // Function to run original code and display in console
+        function runOriginalCode() {
+            const consoleOutput = document.getElementById('consoleOutput');
+            let output = '';
+
+            // Simulate console.log
+            function log(message) {
+                output += message + '\n';
+            }
+
+            // Run original code
+            log("=== SIT725 - Applied Software Engineering ===");
+            log("Task 1.4P - Basic Programming");
+            log("Student: Thoran Kumar Cherukuru Ramesh");
+            log("Student ID: s224967779");
+            log("Email: s224967779@deakin.edu.au");
+            log("===============================================");
+
+            log("\nStudent Information:");
+            log(`Name: ${studentInfo.name}`);
+            log(`ID: ${studentInfo.id}`);
+            log(`Email: ${studentInfo.email}`);
+            log(`Subject: ${studentInfo.subject}`);
+            log(`Task: ${studentInfo.task}`);
+
+            log("\nCalculator Tests:");
+            log(`5 + 3 = ${calculator(5, 3, 'add')}`);
+            log(`10 - 4 = ${calculator(10, 4, 'subtract')}`);
+            log(`6 * 7 = ${calculator(6, 7, 'multiply')}`);
+            log(`15 / 3 = ${calculator(15, 3, 'divide')}`);
+
+            const numbers = [1, 2, 3, 4, 5];
+            log("\nArray Operations:");
+            log(`Numbers: ${numbers}`);
+            log(`Sum: ${numbers.reduce((sum, num) => sum + num, 0)}`);
+            log(`Average: ${numbers.reduce((sum, num) => sum + num, 0) / numbers.length}`);
+
+            log("\nTask 1.4P Complete!");
+
+            consoleOutput.textContent = output;
+        }
+
+        // Initialize the page
+        window.onload = function() {
+            calculate(); // Show initial calculation
+            processArray(); // Show initial array processing
+            runOriginalCode(); // Show console output
+        };
+    </script>
+</body>
+</html>
