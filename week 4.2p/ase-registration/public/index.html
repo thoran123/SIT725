@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deakin University - Applied Software Engineering Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --deakin-blue: #00A3E1;
+            --deakin-dark-blue: #0066cc;
+            --deakin-light-blue: #e6f4fa;
+            --text-dark: #333;
+            --text-light: #777;
+            --light-gray: #f8f9fa;
+            --border-color: #e0e0e0;
+            --success: #28a745;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f9fc 0%, #e6f4fa 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--deakin-blue) 0%, var(--deakin-dark-blue) 100%);
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 12s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .deakin-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .deakin-logo i {
+            font-size: 40px;
+            color: var(--deakin-blue);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 15px;
+            opacity: 0.9;
+        }
+        
+        .accent-bar {
+            height: 5px;
+            width: 100px;
+            background: white;
+            margin: 10px 0 20px;
+            border-radius: 5px;
+        }
+        
+        .semester-badge {
+            background: white;
+            color: var(--deakin-dark-blue);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .semester-badge i {
+            margin-right: 8px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            perspective: 1000px;
+        }
+        
+        @media (min-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--deakin-blue) 0%, var(--deakin-dark-blue) 100%);
+            color: white;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .card-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-header h2 i {
+            margin-right: 12px;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            padding-left: 10px;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--light-gray);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--deakin-blue);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 163, 225, 0.2), inset 0 2px 4px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        
+        .input-group i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        
+        input:focus ~ i, select:focus ~ i {
+            color: var(--deakin-blue);
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--deakin-blue) 0%, var(--deakin-dark-blue) 100%);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 15px rgba(0, 103, 204, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 103, 204, 0.6);
+            background: linear-gradient(135deg, #0098cf 0%, #005bb3 100%);
+        }
+        
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .course-info {
+            background: var(--deakin-light-blue);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--deakin-blue);
+        }
+        
+        .course-info::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A3E1' opacity='0.1'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+        }
+        
+        .course-info h3 {
+            color: var(--deakin-dark-blue);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-item i {
+            width: 36px;
+            height: 36px;
+            background: var(--deakin-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .registrations-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .registration-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--deakin-blue);
+            transition: var(--transition);
+            animation: flipIn 0.8s forwards;
+            opacity: 0;
+            transform: perspective(1000px) rotateY(90deg);
+        }
+        
+        @keyframes flipIn {
+            0% {
+                opacity: 0;
+                transform: perspective(1000px) rotateY(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: perspective(1000px) rotateY(0deg);
+            }
+        }
+        
+        .registration-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .registration-item h4 {
+            color: var(--deakin-dark-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .registration-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .detail-item i {
+            color: var(--deakin-blue);
+            margin-right: 10px;
+            margin-top: 4px;
+            font-size: 1.1rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+        
+        .empty-state i {
+            font-size: 3.5rem;
+            color: var(--deakin-blue);
+            margin-bottom: 20px;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .success-message {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            animation: popIn 0.5s ease;
+        }
+        
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Footer styling */
+        footer {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0d1c2e 100%);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .developer-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .developer-info p {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .developer-info i {
+            margin-right: 10px;
+            color: var(--deakin-blue);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; top: 30%; right: 5%;"></div>
+    <div class="floating-element" style="width: 80px; height: 80px; bottom: 20%; left: 8%;"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="deakin-logo">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h1>Applied Software Engineering</h1>
+                <div class="subtitle">Trimester 2, 2025 - Deakin University</div>
+                <div class="accent-bar"></div>
+                <div class="semester-badge">
+                    <i class="fas fa-calendar-alt"></i> July 2025 - October 2025
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-user-graduate"></i> Registration Form</h2>
+                </div>
+                <div class="card-body">
+                    <div class="course-info">
+                        <h3>Course Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="fas fa-book"></i>
+                                <span>SIT725: Applied Software Engineering</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10 Weeks Duration</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>Dr. Valeh Moghaddam</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-building"></i>
+                                <span>Burwood Campus</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="registrationForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <div class="input-group">
+                                <input type="text" id="fullName" required placeholder="John Smith">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentId">Student ID</label>
+                            <div class="input-group">
+                                <input type="text" id="studentId" required placeholder="224967779">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Deakin Email Address</label>
+                            <div class="input-group">
+                                <input type="email" id="email" required placeholder="john.smith@deakin.edu.au">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="classDay">Preferred Class Day</label>
+                            <div class="input-group">
+                                <select id="classDay" required>
+                                    <option value="">Select day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                </select>
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="classTime">Preferred Time Slot</label>
+                            <div class="input-group">
+                                <select id="classTime" required>
+                                    <option value="">Select time</option>
+                                    <option value="9:00-11:00">9:00 AM - 11:00 AM</option>
+                                    <option value="11:00-13:00">11:00 AM - 1:00 PM</option>
+                                    <option value="13:00-15:00">1:00 PM - 3:00 PM</option>
+                                    <option value="15:00-17:00">3:00 PM - 5:00 PM</option>
+                                    <option value="17:00-19:00">5:00 PM - 7:00 PM</option>
+                                </select>
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn">
+                            <i class="fas fa-paper-plane"></i> Register Now
+                        </button>
+                    </form>
+                    
+                    <div id="successMessage" class="success-message">
+                        <i class="fas fa-check-circle"></i> 
+                        <strong>Registration Successful!</strong> 
+                        <p>You've been registered for Applied Software Engineering. Confirmation has been sent to your email.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list"></i> Recent Registrations</h2>
+                </div>
+                <div class="card-body">
+                    <div class="registrations-container" id="registrationsContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-user-graduate"></i>
+                            <p>No registrations yet. Be the first to register for this class!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="developer-info">
+                    <p><i class="fas fa-code"></i> Developed by: Thoran Kumar Cherukuru Ramesh</p>
+                    <p><i class="fas fa-id-card"></i> Student ID: s224967779</p>
+                    <p><i class="fas fa-graduation-cap"></i> Master of Information Technology</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Deakin University. All rights reserved. CRICOS Provider Code: 00113B
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const registrationsContainer = document.getElementById('registrationsContainer');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Create floating elements animation
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach(el => {
+                // Randomize animation properties
+                const duration = 15 + Math.random() * 15;
+                const delay = Math.random() * 5;
+                const size = parseInt(el.style.width);
+                
+                el.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                el.style.width = `${size + Math.random() * 50}px`;
+                el.style.height = el.style.width;
+                el.style.opacity = 0.1 + Math.random() * 0.2;
+            });
+            
+            // Sample registrations data
+            let registrations = [];
+            
+            // Render existing registrations
+            renderRegistrations();
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const registrationData = {
+                    name: document.getElementById('fullName').value,
+                    id: document.getElementById('studentId').value,
+                    email: document.getElementById('email').value,
+                    day: document.getElementById('classDay').value,
+                    time: document.getElementById('classTime').value
+                };
+                
+                // Add to registrations
+                registrations.unshift(registrationData);
+                
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                
+                // Render updated registrations
+                renderRegistrations();
+                
+                // Reset form
+                form.reset();
+                
+                // Add animation to the card
+                document.querySelector('.card').style.animation = 'none';
+                setTimeout(() => {
+                    document.querySelector('.card').style.animation = 'pulse 0.5s';
+                }, 10);
+            });
+            
+            function renderRegistrations() {
+                if (registrations.length === 0) {
+                    registrationsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-user-graduate"></i>
+                            <p>No registrations yet. Be the first to register for this class!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                registrationsContainer.innerHTML = '';
+                
+                registrations.forEach((reg, index) => {
+                    const registrationItem = document.createElement('div');
+                    registrationItem.className = 'registration-item';
+                    registrationItem.style.animationDelay = `${index * 0.1}s`;
+                    registrationItem.innerHTML = `
+                        <h4>${reg.name}</h4>
+                        <div class="registration-details">
+                            <div class="detail-item">
+                                <i class="fas fa-id-card"></i>
+                                <div>
+                                    <strong>Student ID</strong>
+                                    <p>${reg.id}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email</strong>
+                                    <p>${reg.email}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <div>
+                                    <strong>Preferred Day</strong>
+                                    <p>${reg.day}</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <strong>Time Slot</strong>
+                                    <p>${reg.time}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    registrationsContainer.appendChild(registrationItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
