@@ -1,0 +1,52 @@
+{
+    "name": "sit725-socket-programming",
+    "version": "1.0.0",
+    "description": "Real-time collaborative task management system with Socket.IO - SIT725 Assignment",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage"
+    },
+    "keywords": [
+        "socket.io",
+        "real-time",
+        "collaboration",
+        "task-management",
+        "websockets",
+        "sit725"
+    ],
+    "author": "SIT725 Student",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.21.2",
+        "socket.io": "^4.7.2"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "nodemon": "^3.0.1",
+        "socket.io-client": "^4.7.2",
+        "supertest": "^6.3.3"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "collectCoverageFrom": [
+            "app.js",
+            "tests/*.js"
+        ],
+        "coverageDirectory": "coverage",
+        "coverageReporters": [
+            "text",
+            "lcov",
+            "html"
+        ]
+    },
+    "directories": {
+        "test": "tests"
+    }
+}
