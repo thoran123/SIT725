@@ -1,0 +1,37 @@
+# docker-compose.yml
+# Professional Docker Compose for SIT725 Globe Visualization Project
+version: '3.8'
+
+services:
+  sit725-globe-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: sit725-thoran-globe-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - STUDENT_NAME=Thoran Kumar Cherukuru Ramesh
+      - STUDENT_ID=s224967779
+      - PROJECT_TYPE=Globe Visualization
+    volumes:
+      - ./logs:/usr/src/app/logs:rw
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - sit725-network
+    labels:
+      - "project.name=SIT725 Globe Visualization"
+      - "student.id=s224967779"
+
+networks:
+  sit725-network:
+    driver: bridge
+    name: sit725-globe-network
